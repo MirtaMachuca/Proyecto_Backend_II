@@ -3,7 +3,7 @@ import {Router} from "express";
 const router = Router();
 
 router.get("/", (req,res)=>{
-    res.render("");
+    res.render("index");
 });
 
 
@@ -16,11 +16,12 @@ router.get("/register", (req,res)=>{
 });
 
 router.get("/profile", (req,res)=>{
-     res.render("profile");
+    const {first_name,last_name,age,role}=req.user
+     res.render("profile",{});
 });
 
 router.get("/failed", (req,res)=>{
-     res.render("failed");
+     res.render("failed",{first_name,last_name,age,role});
 });
 
 export default router

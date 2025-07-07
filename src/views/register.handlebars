@@ -1,26 +1,38 @@
-<form method="POST" action="/api/session/register">
-    <label for="">
-        Nombre:
-        <input type="text" name="nombre" placeholder="Ignacio" value=""/>
-    </label>
-    <br/>
-     <label for="">
-        Apellido:
-        <input type="text" name="apellido" placeholder="Machuca" value=""/>
-    </label>
-    <br/>
-    <label for="">
-        Email:
-        <input type="email" name="email" placeholder="ex@gmail.com" value=""/>
-    </label>
-    <br/>
-     <label for="">
-        Password:
-        <input type="password" name="password" placeholder="******" value=""/>
-    </label>
-    <br/>
-    <input type="submit" value="Register"/>
+<h1>Registro</h1>
 
+<form method="POST" action="/api/session/register">
+  <label>
+    Nombre:
+    <input type="text" name="first_name" placeholder="Ignacio" required />
+  </label>
+  <br />
+
+  <label>
+    Apellido:
+    <input type="text" name="last_name" placeholder="Machuca" required />
+  </label>
+  <br />
+
+  <label>
+    Edad:
+    <input type="number" name="age" placeholder="20" required />
+  </label>
+  <br />
+
+  <label>
+    Email:
+    <input type="email" name="email" placeholder="ex@gmail.com" required />
+  </label>
+  <br />
+
+  <label>
+    Contraseña:
+    <input type="password" name="password" placeholder="******" required />
+  </label>
+  <br />
+
+
+  <input type="submit" value="Registrarme" />
 </form>
 
-<p>Not account?<a href="/login">Login</a></p>
+<p>¿Ya tenés cuenta? <a href="/login">Iniciar sesión</a></p>

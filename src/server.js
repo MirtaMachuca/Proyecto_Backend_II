@@ -1,50 +1,51 @@
 import express from "express";
-import config from "./config/index.js";
-import sessionRouter from "./routes/session.router.js";
-import usersRouter from "./routes/users.router.js";
-import viewsRouter from "./routes/views.router.js"
-import hbs from "express-handlebars";
 import mongoose from "mongoose";
-
-import session from "espress-session";
 import cookieParser from "cookie-parser";
+import session from "express-session";
+import hbs from "express-handlebars";
+import path from "path";
 import passport from "passport";
+import { fileURLToPath } from "url";
 
-const {PORT, MONGO_URI,SECRET}= config;
-const server=express();
+import config from "./config/index.js";
+import usersRouter from "./routes/users.router.js";
+import sessionRouter from "./routes/session.router.js";
+import viewsRouter from "./routes/views.router.js";
+import initializedPassport from "./config/passport/config.js";
 
-server.engine("handlebars", hbs.engine());
-server.set("views", import.meta.dirname + "/views")
-server.set("view engine" , "handlebars")
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+const { PORT, MONGO_URI, SECRET } = config;
+const app = express();
 
-server.use("/", viewsRouter);
-server.use("/api/users", usersRouter);
-server.use("/api/session", sessionRouter);
+app.engine("handlebars", hbs.engine());
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "handlebars");
 
-server.use(cookieParser());
-server.use(express.json());
-server.use(express.urlencoded({extended :true}));
-server.use(session({
-    secret:SECRET,
-    saveUninitialized:true,
-    resave: false,
-    cookie:{
-        httpOnly:true,
-        sameSite: true,
-        maxAge: 24*60*60
-        
-    }
-}))
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(session({
+  secret: SECRET,
+  resave: false,
+  saveUninitialized: true,
+}));
+
 initializedPassport();
-server.use(passport.initialize());
-server.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
-server.listen( PORT, ()=> console.log(`listening on port ${PORT}`));
+app.use("/", viewsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/session", sessionRouter);
 
-mongoose.connect(MONGO_URI, {dbName : "pre_entregaI"})
-    .then(()=> console.log("MongoDB connect successfully"))
-    .catch((err)=>{
-    console.error({error:err.meddage})
-    process.exit(1)
-})
+app.listen(PORT, () => console.log(`Server on port ${PORT}`));
+
+mongoose.connect(MONGO_URI, { dbName: "pre_entregaI" })
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => {
+    console.error(err.message);
+    process.exit(1);
+  });
