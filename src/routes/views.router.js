@@ -14,11 +14,11 @@ router.get("/login", (req,res)=>{
 router.get("/register", (req,res)=>{
     res.render("register");
 });
-
+/*
 router.get("/profile", (req,res)=>{
     const {first_name,last_name,age,role}=req.user
      res.render("profile",{});
-});
+});*/
 
 router.get("/failed", (req,res)=>{
      res.render("failed",{first_name,last_name,age,role});
