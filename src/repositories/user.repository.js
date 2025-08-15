@@ -1,26 +1,19 @@
-// user.repository.js
-const UserDao = require('../dao/user.dao');
+import userDAO from '../daos/user.dao.js';
 
-class UserRepository {
-    constructor(userDao) {
-        this.userDao = userDao;
-    }
+const findAll = async () => {
+  return userDAO.findAll();
+};
 
-    async createUser(userData) {
-        return this.userDao.create(userData); 
-    }
+const findById = async (id) => {
+  return userDAO.findById(id);
+};
 
-    async getUserById(id) {
-        return this.userDao.findById(id);
-    }
+const create = async (userData) => {
+  return userDAO.create(userData);
+};
 
-    async getUserByEmail(email) {
-        return this.userDao.findByEmail(email);
-    }
-
-    async updateUser(id, newData) {
-        return this.userDao.update(id, newData);
-    }
-}
-
-module.exports = new UserRepository(UserDao);
+export {
+  findAll,
+  findById,
+  create,
+};

@@ -1,4 +1,4 @@
-// views.controller.js
+
 class ViewsController {
     renderLogin(req, res) {
         res.render('login', { /* Puedes pasar flash messages aquí */ });
